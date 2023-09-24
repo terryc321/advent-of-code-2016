@@ -1,0 +1,7 @@
+
+
+chicken scheme specific - get access to the md5 algorithm
+
+sudo chicken-install md5
+sudo chicken-install message-digest-utils
+
