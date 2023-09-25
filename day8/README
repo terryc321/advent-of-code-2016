@@ -1,0 +1,29 @@
+
+proof s of this program ?
+
+rotating a sequence of size S is same as original
+
+1 2 3
+*
+
+move 1 right 3 places , here size = 3
+then 1 ends up in original position
+- digits that fall off end wrap around to beginning of sequence
+
+circular sequence
+
+model the transition from all off to rectangle A by B top left to on , leaving rest off
+
+50 wide by 6 pixels high
+0,0 to 49,5 inclusive grid
+
+show this is true in general ?
+for arbitrary size of n elements , a circular rotation n times is equivalent to 0 rotations
+left rotation is equivalent to (size - 1) right rotations
+
+n left rotations + n right rotations = same starting location
+
+a left rotations + b right rotations + a2 left rotations + b2 right rotations = same
+starting location if sum As = sum Bs
+
+
