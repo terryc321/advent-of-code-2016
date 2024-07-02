@@ -1,0 +1,11 @@
+rotate based on position of letter d
+move position 1 to position 6
+swap position 3 with position 6
+rotate based on position of letter c
+swap position 0 with position 1
+rotate right 5 steps
+rotate left 3 steps
+rotate based on position of letter b
+swap position 0 with position 2
+end
+

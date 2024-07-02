@@ -1,0 +1,4 @@
+
+swap position 3 with position 4
+swap position 5 with position 6
+end
