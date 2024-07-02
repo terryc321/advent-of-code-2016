@@ -1,0 +1,9 @@
+((swapxy 4 0)
+ (swapletter #\d #\b)
+ (rev 0 4)
+ (rotleft 1)
+ (move 1 4)
+ (move 3 0)
+ (rotpos #\b)
+ (rotpos #\d))
+ 
