@@ -371,7 +371,6 @@ rotate word right [n]
 solution gcdaebfh <-> fbgdceah 
 ........ rejected .......
 
-
 (puzzle (string-copy "fhgcdaeb"))
 = "fbgdceah"
 .......... ACCEPTED ......>>>... fhgcdaeb ...<<<.... 
@@ -395,6 +394,19 @@ what probably be better would be some sort of vector implementation like a grid
 
 no because rotations are dependent on where letters are in the sequence ,
  so no 1 : 1 mapping possible
+
+mutating solution
+difficulty is
+(let ((in "ALPHA")
+  (out "AHPLA"))
+    * run *
+    Check if output == in   ........... meaningless check because * run * clobbers in 
+                                        * in * gets changed as * run * is processing 
+                                        so * in * is now just an artifact of running * run * 
+                                        no connection to original "ALPHA" at all ...
+
+a purely functional approach may induce more copying
+
 
 
 |#
