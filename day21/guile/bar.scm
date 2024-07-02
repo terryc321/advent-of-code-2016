@@ -11,22 +11,13 @@
 
 (define pp pretty-print)
 
-(define demo (call-with-input-file "demo"
-		(lambda (port)
-		  (read port))))
 
-(define input (call-with-input-file "demo"
-		(lambda (port)
-		  (read port))))
-
-
-;; if we define word as "abcde" this is an unchangeable string ??
 (define word (string-copy "012345678"))
 
 (define (swapxy x y)
   (let ((a (string-ref word x))
 	(b (string-ref word y)))
-    (format #t "swapping x ~a (~a): y ~a (~a) ~%" x a y b)
+    ;; (format #t "swapping x ~a (~a): y ~a (~a) ~%" x a y b)
     (string-set! word x b)
     (string-set! word y a)
     ))
@@ -56,7 +47,7 @@ swap reverse 3 .. 5 in string
       (y-n)    3 -> 5  (x + n)
 |#
 (define (rev x y)
-  (format #t "REVERSING LETTERS ~a thru ~a ~%" x y)
+  ;; (format #t "REVERSING LETTERS ~a thru ~a ~%" x y)
   (let* ((lim (- y x))
 	 (copy (string-copy word)))
     (letrec ((foo (lambda (word n)
@@ -93,7 +84,7 @@ count up from n until hit len of string then reset counter
 keep counting up
 |#
 (define (rotleft x)
-  (format #t "ROT LEFT ~a ~% " x)
+  ;;(format #t "ROT LEFT ~a ~% " x)
   (let* ((lim (string-length word))
 	 (copy (string-copy word)))
     (letrec ((foo (lambda (n c)
@@ -117,7 +108,7 @@ rotate word right [n]
 
 |#
 (define (rotright x)
-  (format #t "ROT RIGHT ~a ~%" x)
+  ;; (format #t "ROT RIGHT ~a ~%" x)
   (let* ((lim (string-length word))
 	 (copy (string-copy word)))
     (letrec ((foo (lambda (n c)
@@ -194,15 +185,15 @@ rotate word right [n]
    ((> x y) (move-x-more-y word x y))))
 
 (define (move x y)
-  (format #t "MOVE ~a ~a ~%" x y)
+  ;; (format #t "MOVE ~a ~a ~%" x y)
   (set! word (move-helper word x y ))
   word)
 
 
 (define (rotpos c)
-  (format #t "ROTPOS ~a : " c)
+  ;; (format #t "ROTPOS ~a : " c)
   (let ((i (find-index c)))
-    (format #t "index ~a ~%" i)
+    ;; (format #t "index ~a ~%" i)
     (rotright (+ i 1))
     (when (>= i 4) (rotright 1))))
 
@@ -215,7 +206,7 @@ rotate word right [n]
   (set! word target)
   (let ((ys (map (lambda (x) `(begin
 				,x
-				(format #t "word => ~a ~%" word)
+				;;(format #t "word => ~a ~%" word)
 				))
 		 prog)))
     (eval 
@@ -239,7 +230,7 @@ rotate word right [n]
     (run prog target)))
 
 
-(define (puzzle)
+(define (puzzle in)
   (let ((prog  '((rotpos #\d)
 		 (move 1 6)
 		 (swapxy 3 6)
@@ -340,33 +331,74 @@ rotate word right [n]
 		 (rev 2 4)
 		 (swapxy 7 1)
 		 (swapletter #\a #\h)
-		 ))
-	       (target (string-copy "abcdefgh")))
-	(run prog target)))
+		 )))
+    (run prog in)))
+
+(define rec
+  (lambda (letters choice)
+    (cond
+     ((null? letters)
+      (let* ((in (list->string choice))
+	     (in2 (string-copy in))
+	     (out "fbgdceah")
+	     (out2 (string-copy out)))
+	(format #t "trying ~A ~%" in)
+	(set! word in)
+	(puzzle in)
+	(when (equal? word out2)
+	  (format #t "solution in  ~a <-> out  ~a ~%" in2 out2)
+	  )))
+     (#t
+      (letrec ((foo (lambda (xs)
+		      (cond
+		       ((null? xs) #f)
+		       (#t (let ((ch (car xs)))
+			     (rec (filter (lambda (x)(not (char=? x ch))) letters)
+				  (cons ch choice))
+			     (foo (cdr xs))))))))
+	(foo letters))))))
 
 
 
 
-
-
-
-(define (test)
-  (set! word (string-copy "abcde")) 
-  (rev 0 4) (format #t "word => ~a ~%" word)
-  word)
-
+(define brute
+  (lambda ()
+    (let ((letters '(#\a #\b #\c #\d #\e #\f #\g #\h)))
+      (rec letters '()))))
 
 #|
-> (puzzle)
-word => ghfacdbe 
+
+solution gcdaebfh <-> fbgdceah 
+........ rejected .......
 
 
-ghfacdbe  ......... ACCEPTED ....
+(puzzle (string-copy "fhgcdaeb"))
+= "fbgdceah"
+.......... ACCEPTED ......>>>... fhgcdaeb ...<<<.... 
+
+difficult puzzle in scheme because strings "alphabetic" is treated as a constant immutable string
+what probably be better would be some sort of vector implementation like a grid
+        word at top
+        .....
+        .....
+        .... 
+        ....
+        .... 
+        each stage of processing
+
+   idea that if all an algorithm does is shuffle the same way each time 
+   1 2 3 4
+   4 3 2 1
+
+   then there is a simple mapping 1 : 1 
+   if known mapping then the inverse is simply looking at where original sequence went 
+
+no because rotations are dependent on where letters are in the sequence ,
+ so no 1 : 1 mapping possible
+
 
 |#
 
 
-      
-      
-      
-      
+
+     
