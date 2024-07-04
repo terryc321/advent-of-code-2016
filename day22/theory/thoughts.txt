@@ -1,0 +1,68 @@
+
+theoretical
+
+36 wide by 25 deep                     X=36 Y = 1
+                                  GOLD G at 36, 1 
+THERe <<<<<<<<<<<<<<<<<<<<<<<<<<< << <   G  ....   Y=1
+x                               . .  .   x
+x                            .           x
+x                  _ 0 _ . .             x
+x                                        x
+x                                        x
+x                                        x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx x    ...   Y = 25
+X= 1                                     X= 36
+
+hole is somewhere in middle
+  g.set(18,23,(0,85,0));  // <<<<<<< here is the _ empty 
+       at x = 18 :  y = 23
+
+  get the hole to in front of GOLD  at ( 35 , 1 )
+  move gold onto 35 , 1
+  hole displaced to 36 , 1
+  
+        The 'U' shaped Movement of the Hole 
+  move hold down to 36 , 2
+                    35 , 2
+		    34 , 2
+		    34 , 1
+		    move GOLD to (34 , 1 )
+		    hole displaced to 35 , 1 rinse and repeat until
+        u shape move takes FIVE moves in total
+	results in gold being moved one place left
+	
+
+                    move GOLD to (1,1) and hole displaced to ( 2,1 )
+                    END ...
+
+   at 18 , 23  to get to 18 , 1 is 22 steps  ?
+   at 18 , 1  to get to 35 , 1 is  17 steps
+                                 -------
+				   39 steps ?
+			+ how ever many 
+
+
+
+keeping length of search to 41 or shorter ....
+
+closest so far 38 at 19 23 
+closest so far 37 at 20 23 
+closest so far 36 at 21 23 
+closest so far 35 at 22 23 
+closest so far 34 at 23 23 
+closest so far 33 at 24 23 
+closest so far 32 at 25 23 
+closest so far 31 at 26 23 
+closest so far 30 at 27 23 
+closest so far 29 at 28 23 
+closest so far 28 at 29 23 
+closest so far 27 at 30 23 
+closest so far 26 at 31 23 
+closest so far 25 at 32 23 
+closest so far 24 at 33 23 
+closest so far 23 at 34 23 
+closest so far 22 at 35 23 
+  C-c C-c
+[warn] Canceling execution... ..... takes too long ...Ctrl - c quit termination proof
+Cancelled: run
+[error] Canc
