@@ -1,0 +1,44 @@
+
+    cpy x y copies x (either an integer or the value of a register) into register y.
+    inc x increases the value of register x by one.
+    dec x decreases the value of register x by one.
+    jnz x y jumps to an instruction y away (positive means forward; negative means backward), but only if x is not zero.
+
+
+puzzle input follows 
+
+var a = 0
+var b = 0
+var c = 0
+var d = 0
+
+23 statements in total 0 .. 22 inclusive
+
+0 cpy 1 a
+1 cpy 1 b
+2 cpy 26 d
+3 jnz c 2
+4 jnz 1 5
+5 cpy 7 c
+6 inc d
+7 dec c
+8 jnz c -2
+9 cpy a c
+10 inc a
+11 dec b
+12 jnz b -2
+13 cpy c b
+14 dec d
+15 jnz d -6
+16 cpy 18 c
+17 cpy 11 d
+18 inc a
+19 dec d
+20 jnz d -2
+21 dec c
+22 jnz c -5
+
+language ?
+sort ?
+
+
