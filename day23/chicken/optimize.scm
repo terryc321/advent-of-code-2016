@@ -720,6 +720,32 @@ if know offset we may jump to we can update i  such as i = i - 2 , jump to fgo
 example
 i=9 : jnz d -5 :  on branch when d non-zero  i = i - 5 , 9 - 5 is 4 so fgo will be f4 hence (f4)
 
+> time ./optimize
+a[479010028] b[1] c[0] d[0]
+
+real	1m9.573s
+user	1m9.394s
+sys	0m0.173s
+
+shaved another 10 seconds 
+--------------------------------------
+
+compiling with -O5 unsafe everything and kitchen sink
+
+terry@debian:~/code/advent-of-code/advent-of-code-2016/day23/chicken$ csc -O5 optimize.scm
+terry@debian:~/code/advent-of-code/advent-of-code-2016/day23/chicken$ time ./optimize 
+a[479010028] b[1] c[0] d[0]
+
+real	0m22.681s
+user	0m22.678s
+sys	0m0.001s
+
+more than halves the
+
+----------------------------------------
+
+
+
 |#
 
 
