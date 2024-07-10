@@ -1,0 +1,73 @@
+
+some thoughts.txt
+----------------------
+
+tgl x toggles the instruction x away (pointing at instructions like jnz does: positive means forward; negative means backward):
+
+For one-argument instructions, inc becomes dec, and all other one-argument instructions become inc.
+For two-argument instructions, jnz becomes cpy, and all other two-instructions become jnz.
+The arguments of a toggled instruction are not affected.
+If an attempt is made to toggle an instruction outside the program, nothing happens.
+If toggling produces an invalid instruction (like cpy 1 2) and an attempt is later made to execute that instruction, skip it instead.
+If tgl toggles itself (for example, if a is 0, tgl a would target itself and become inc a), the resulting instruction is not executed until the next time it is reached.
+
+
+vector of toggles ?
+
+look at each instruction and see how it toggles
+
+toggle ( i >= 0 and i < program.length )
+otherwise toggle is ignored and next instruction is fired
+
+note toggle procedure affecting tog[n] is independent on firing of v[n]
+meaning tog[n] can be incremented , but v[n] is not fired directly after
+
+-----------------------------------------------
+one argument instruction - First Toggle 
+inc -> dec
+* anything else * ->  inc
+
+second Toggle
+dec -> inc
+inc -> dec
+
+tog[0] = 0
+v[0] = if tog[0] == 0 then ... else if 
+-----------------------------------------------
+two argument instruction - First toggle
+jnz -> cpy
+*anything* -> jnz
+
+invalid instructions are skipped
+cpy 1 2
+
+
+-----------------------
+0 cpy a b
+1 dec b
+2 cpy a d
+3 cpy 0 a
+4 cpy b c
+5 inc a
+6 dec c
+7 jnz c -2
+8 dec d
+9 jnz d -5
+10 dec b
+11  cpy b c
+12  cpy c d
+13  dec d
+14  inc c
+15  jnz d -2
+16  tgl c
+17  cpy -16 c
+18  jnz 1 c
+19  cpy 98 c
+20  jnz 86 d
+21  inc a
+22  inc d
+23  jnz d -2
+24  inc c
+25  jnz c -5
+-------------------
+

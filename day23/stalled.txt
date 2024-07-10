@@ -1,0 +1,7 @@
+
+used macros ...... stalled on instruction 12 
+
+inside [v12b] : a[1260] b[7] c[7] d[0] i[12] 
+running procedure 12 
+inside [v12b] : a[1260] b[7] c[7] d[0] i[12] 
+running proc
