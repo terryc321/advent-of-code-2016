@@ -1,0 +1,219 @@
+
+ideas
+
+part b 
+finding opposite number ?
+
+diagram ?
+suppose given n players , what player is opposite to n ?
+
+indexing players 1 .. n  players in a circle
+finding opposite player depending on if number of players is even or odd 
+
+n even = (n+2)/2 
+              1
+	    4   2
+             *3*
+         (4+2)/2 -> *3*
+
+n odd  = (n+1)/2 
+               1
+	     5   2
+	      4	*3*
+        (5+1)/2 -> 3 
+                           
+now that player is removed 
+board is rotated 
+               2 
+             1   4
+               5
+
+or should we look at it from a vector array zero based perspective
+               0                    0
+             3   1                4   1
+              *2*                  3 *2*
+             n = 4                 n = 5
+             algorithm for opposite player is 
+                   floor ( n / 2 )
+
+         these are indexes into an array
+   "game view"    1 2 3 4 5                     1        n=5   5/2 -> 2 
+    indices       0 1 2 3 4                   5   2      remove index 2 
+                                               4 *3*     remove player "3"
+
+                  1 2 _ 4 5  
+                  0 1 _ 3 4  
+
+      need to rotate to bring player "2" to front
+    game view     2 _ 4 5 1     
+    indices       1 _ 3 4 0
+      relabel indices
+                  
+    game view     2 _ 4 5 1       n = 4         2        n / 2    
+    indices       0 _ 1 2 3                   1   4      4 / 2 = 2 
+                                               *5*        remove index 2 : player "5"
+                       
+    because always moving array down ,              
+                  2 4 1 
+                  0 1 2
+                                n = 3           4        n / 2
+                  4 1 2                        2  *1*      3 / 2 = 1 
+                  0 1 2                                   remove index 1 : player "1"
+ 
+                  2 4
+                  0 1
+     algorithm 
+     copy n
+     copy n - 1
+     copy n - 2 
+     cumulatively  sum to n is  n (n+1) / 2 
+                                100 * 101 / 2 = 5050 
+
+scala> val input : BigInt = 3005290
+val input: BigInt = 3,005,290
+
+scala> input  * (input + 1) / 2
+val res5: BigInt = 4,515,885,494,695
+so thats quite a large number of copies 
+       O( n ^ 2 )      
+      big o notation 
+
+     can we do better ? 
+                                                        
+     n players    remove index 0 + floor (n-0 / 2)
+     n-1 players  remove index 1 + floor( n-1 / 2)  
+     n-2 players               2 + floor( n-2 / 2)
+     n-3 players               3 + floor( n-3 / 2)
+
+       HYPOTHESISS : 
+      input is 3005290 players 
+      halfway point is 1502645
+      once reach here 
+      REMOVE  :  removes current node from doubly linked list,
+                 set current node to where REMOVEd node NEXT pointed to
+      SKIP    :  set current node to current.NEXT node
+
+       initial bootstap pattern is REMOVE 
+       repeated pattern            SKIP REMOVE REMOVE
+
+    during construction of doubly linked list ?
+     when index is 1502645 mark this node as current node 
+     save traversing list a 2nd time after construction
+      
+
+                                                                                    doubly linked list
+         start n = 9             zero based index   running     index                                                 input
+    9a                0           floor( n / 2)    accumulator                        0 1 2 3 4 5 6 7 8 9             3005290
+                   8   1            4                 + 0         4                   0 1 2 3 _ 4 5 6 7 8           1502645  (floor(/ input 2)) 
+                  7      2                                                                    ^ remove 4th in linked list 
+                  6      3                                                                      ^ place cursor at next one is now 4th
+                    5  *4*                                                            + REMOVE
+                                                                                           
+    8a                0            8 / 2              + 1         5                   0 1 2 3 *4* 5 6 7 8       1502644 (floor (/ (- input 1) 2))
+                   7   1             4                                                0 1 2 3 4 *5* 6 7 8
+                  6     2                                                             + SKIP
+                   *5*  3                                                             + REMOVE
+                     4            
+
+    7a              0               7 / 2                                             0 1 2 3 4 5 6 7
+                 *6*  1               3              +2           5                   0 1 2 3 4 * 5 6 
+                 5   2                                                                + REMOVE
+                  4  *3*                                                              
+                                                                                      
+                                                                                      
+    6a              *0*             6/2                                               
+                5     1              3                +3           6                  0 1 2 3 4 5 6 
+                4     2                                                               0 1 2 3 4 _ 5  
+                   *3*    
+                                                                                      
+     5a             0                5/2                                              0 1 2 3 _ 4 _ _ 5 _ 
+                 4   1                2              +4            6                  _ 0 1 2 _ 3 _ _ 4 _
+                  3 *2* 
+
+     4a             0                4/2                                              
+                 3   1                2              +5            7                  _ 0 1 2 _ 3 _ _ 4 _
+                   *2*                                                                _ 0 1 _ _ 2 _ _ 3 _
+
+     3a             0                3/2                                  7mod3       
+                  2  *1*              1              +6            7        2
+ 
+     2a             0                2/2                                  8mod2       
+                   *1*                 1             +7            8        0
+
+     1a ... done                        
+     
+    pattern removing indexes is 
+        
+    .. 3 3 2 2 1 1 & done 
+
+Look at 9a  
+     begin at n = 9  index 4     4      
+     8a         index 4 + 1      5    5 mod 8
+     7a               3 + 2      5
+     6a               3 + 3      6
+     5a               2 + 4      1    
+     4a               2 + 5      3    7 mod 4 -> remainder 3 
+     3a               1 + 6            (1+6->  (7) mod 3) = 1 step off index 1
+     2a               1 + 7            (1+7->  (8) mod 2) = 0 steps off index 1
+     1a               < done >
+
+ look at 9a 
+      0 1 2 3 4 5 6 7 8        remove index 4
+      0 1 2 3 X 5 6 7 8       
+
+any index > 4 is actually index - 1
+      index 5 is actually now index 4 
+            6 ... 5
+            7 ... 6
+            8 ... 7
+
+ .............................................
+     n = input  
+ .............................................
+     n               index n/2+ 0   mod n-0      i = 0
+    n - 1            (n-1)/2  + 1   mod n-1      i = 1 
+    n - 2            (n-2)/2  + 2   mod n-2      i = 2
+    n - 3            (n-i)/2  + i   mod n-i      i = 3 
+    n - 4            ...           
+    ...
+    1                <done>
+ ..................................................
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
