@@ -1,0 +1,194 @@
+
+n = 10         n / 2 
+offset of integer divsion by 2 gives 
+
+        1          0
+     10  2       9   1
+      9  3       8   2
+      8  4       7   3  
+      7  5       6   4
+       6           *5*    
+
+zero based indexeing 
+integer division 9 / 2 becomes 4 
+gives correct offset 
+n = 9           n / 2 
+       1           0
+     9  2        8  1
+     8  3        7  2
+     7  4        6  3
+     6  5        5  *4*
+
+
+n = 8
+
+        1          0
+      8  2       7  1
+      7  3       6  2
+      6  4       5  3
+        5         4
+
+n = 7
+
+      1            0 
+    7   2         6 1
+    6   3         5 2
+     5 4          4 3
+                   
+n = 6
+
+       1          0
+     6  2        5 1
+     5  3        4 2 
+       4          3
+
+n = 5
+
+      1           0
+     5 2        4  1
+     4 3        3  2  
+
+n = 4
+
+      1          0
+     4 2        3 1
+      3          2
+ 
+n = 3
+
+      1          0
+     3 2        2 1
+
+n = 2 
+
+      1          0
+      2          1
+
+n = 1 
+
+      1
+
+---------------------------------------------
+
+suppose n is even starts 
+
+initial size = 3005290
+zero based indexing 3005290 / 2 
+odd offset of 1502645
+
+size = 10 ..... 1 .. 10 inclusive
+
+        1          0
+     10  2       9   1
+      9  3       8   2
+      8  4       7   3  
+      7  5       6   4
+       6           *5*    
+
+ move to prev node after removal
+size = 9  no 5 removed
+             0
+           9   1
+           8   2
+           7   3  
+           6   > 4 <
+     
+rotation 
+              1
+            0  2
+            9  3
+            8  >4<
+            7  6
+
+forward + remove
+size = 8  nos 5,6 removed 
+
+              1
+            0  2
+            9  3
+            8  > 4 <
+             7  
+
+rotation
+              2
+            1  3
+            0  4
+            9  7
+            * 8 *  
+
+size= 8  n/2 = 4  offset of 4 
+
+              2
+            1  3
+            0  4
+            9  >7<
+               
+rotation
+size = 7  n/2 = 3
+              3
+            2  4
+            1  7
+            0  * 9 *
+
+remove
+              3
+            2  4
+            1  7
+              0  
+
+rotation
+size = 6 n/2 = 3 
+remove item 1 
+             4
+            3  7
+            2  0
+            * 1 * 
+
+             4
+            3 7 
+            2 0 
+
+rotate 
+size = 5
+             7 
+            4 0
+            3 * 2 *
+
+5 / 2 = 2 offset 
+
+             7 
+            4 0
+             3
+
+rotate
+size = 4
+             0 
+            7 3
+             4
+       
+---------------------------------------------
+
+start on even number
+
+size = 10 , 10 / 2 = 5 need to move forward n / 2 places
+
+...................... size 10
+remove 5. 
+forward to 6.
+remove 6.
+...................... size 8
+
+forward 
+forward to 8
+remove 8
+forward to 9
+remove 9
+...................... size 6
+
+forward 
+forward to 1
+remove 1
+forward to 2
+remove 2
+...................... size 4
+
